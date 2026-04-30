@@ -32,8 +32,8 @@ body {
   font-family: var(--font);
   letter-spacing: 0;
   line-height: 1.35;
-  animation: page-enter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  transition: opacity 240ms ease, transform 240ms ease;
+  animation: page-enter 420ms ease both;
+  transition: opacity 220ms ease;
 }
 
 body.menu-open {
@@ -46,19 +46,16 @@ body.lightbox-open {
 
 body.is-leaving {
   opacity: 0;
-  transform: translateY(10px);
   pointer-events: none;
 }
 
 @keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(12px);
   }
 
   to {
     opacity: 1;
-    transform: none;
   }
 }
 
@@ -605,6 +602,179 @@ body::before {
 .offer-item:focus-visible,
 .offer-item.is-active {
   color: var(--ink);
+}
+
+.service-focus-section {
+  width: var(--page);
+  margin: 24px auto 0;
+  border: 1px solid rgba(9, 11, 16, 0.08);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 26px;
+  box-shadow: 0 24px 70px rgba(10, 12, 14, 0.12);
+}
+
+.service-focus-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+  gap: 44px;
+  align-items: end;
+  padding: 24px 6px 34px;
+  border-bottom: 1px solid rgba(9, 11, 16, 0.1);
+}
+
+.service-focus-head h2 {
+  max-width: 980px;
+  margin: 18px 0 0;
+  font-size: 82px;
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.service-focus-head p {
+  max-width: 520px;
+  margin: 0;
+  color: rgba(9, 11, 16, 0.62);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.service-feature-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.service-feature-card {
+  display: grid;
+  min-height: 560px;
+  overflow: hidden;
+  border: 1px solid rgba(9, 11, 16, 0.1);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.service-feature-card:first-child {
+  grid-row: span 2;
+}
+
+.service-feature-card:not(:first-child) {
+  grid-template-columns: 0.92fr 1.08fr;
+  min-height: 273px;
+}
+
+.service-feature-paper {
+  background: #faf8f3;
+}
+
+.service-feature-dark {
+  position: relative;
+  background: var(--charcoal);
+  color: var(--white);
+}
+
+.service-feature-media {
+  position: relative;
+  min-height: 250px;
+  overflow: hidden;
+  background: var(--charcoal);
+}
+
+.service-feature-card:first-child .service-feature-media {
+  min-height: 320px;
+}
+
+.service-feature-card:not(:first-child) .service-feature-media {
+  min-height: 100%;
+}
+
+.service-feature-media img {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  object-fit: cover;
+  transition: transform 520ms ease, opacity 180ms ease;
+}
+
+.service-feature-card:hover .service-feature-media img {
+  transform: scale(1.035);
+}
+
+.service-feature-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 34px;
+}
+
+.service-feature-card:first-child .service-feature-copy {
+  min-height: 240px;
+  padding: 42px;
+}
+
+.service-feature-copy > span {
+  color: rgba(9, 11, 16, 0.52);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.service-feature-dark .service-feature-copy > span,
+.service-feature-dark .service-feature-copy p {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.service-feature-copy h3 {
+  max-width: 620px;
+  margin: 22px 0 0;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.service-feature-card:not(:first-child) .service-feature-copy h3 {
+  font-size: 34px;
+}
+
+.service-feature-copy p {
+  max-width: 620px;
+  margin: 24px 0 0;
+  color: rgba(9, 11, 16, 0.64);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.service-feature-card:not(:first-child) .service-feature-copy p {
+  font-size: 14px;
+}
+
+.service-feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.service-feature-tags span {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  border: 1px solid rgba(9, 11, 16, 0.12);
+  border-radius: 999px;
+  padding: 0 13px;
+  color: rgba(9, 11, 16, 0.62);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.service-feature-dark .service-feature-tags span {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .selected-section {
@@ -1802,6 +1972,7 @@ address {
   }
 
   .offer-section,
+  .service-focus-section,
   .archive-section,
   .project-detail,
   .contact-band {
@@ -1820,6 +1991,23 @@ address {
 
   .offer-item strong {
     font-size: 48px;
+  }
+
+  .service-focus-head h2 {
+    font-size: 68px;
+  }
+
+  .service-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-feature-card:first-child {
+    grid-row: auto;
+  }
+
+  .service-feature-card:not(:first-child) {
+    grid-template-columns: 1fr 1fr;
+    min-height: 360px;
   }
 
   .selected-head h2 {
@@ -1950,6 +2138,48 @@ address {
     grid-template-columns: 1fr;
     gap: 36px;
     padding: 56px 28px;
+  }
+
+  .service-focus-section {
+    padding: 16px;
+  }
+
+  .service-focus-head {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 28px 12px 30px;
+  }
+
+  .service-focus-head h2 {
+    font-size: 54px;
+  }
+
+  .service-feature-card,
+  .service-feature-card:not(:first-child) {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .service-feature-card:not(:first-child) .service-feature-media {
+    min-height: 280px;
+  }
+
+  .service-feature-card:nth-child(2) .service-feature-copy {
+    order: 2;
+  }
+
+  .service-feature-card:nth-child(2) .service-feature-media {
+    order: 1;
+  }
+
+  .service-feature-copy,
+  .service-feature-card:first-child .service-feature-copy {
+    padding: 30px;
+  }
+
+  .service-feature-copy h3,
+  .service-feature-card:not(:first-child) .service-feature-copy h3 {
+    font-size: 38px;
   }
 
   .offer-item {
@@ -2213,10 +2443,26 @@ address {
   }
 
   .board-intro h2,
+  .service-focus-head h2,
   .selected-head h2,
   .archive-head h2,
   .contact-band h2 {
     font-size: 44px;
+  }
+
+  .service-feature-card:first-child .service-feature-media,
+  .service-feature-card:not(:first-child) .service-feature-media {
+    min-height: 240px;
+  }
+
+  .service-feature-copy,
+  .service-feature-card:first-child .service-feature-copy {
+    padding: 26px;
+  }
+
+  .service-feature-copy h3,
+  .service-feature-card:not(:first-child) .service-feature-copy h3 {
+    font-size: 32px;
   }
 
   .detail-copy h2 {
@@ -2287,6 +2533,7 @@ address {
   }
 
   .offer-section,
+  .service-focus-section,
   .archive-section {
     padding-left: 22px;
     padding-right: 22px;

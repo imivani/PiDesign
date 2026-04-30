@@ -97,7 +97,7 @@
 
   function setupReveal() {
     const baseItems = document.querySelectorAll(
-      ".hero-board article, .offer-section, .selected-head, .project-showcase, .archive-head, .project-tools, .project-detail, .contact-band"
+      ".hero-board article, .offer-section, .service-focus-section, .selected-head, .project-showcase, .archive-head, .project-tools, .project-detail, .contact-band"
     );
 
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
