@@ -42,6 +42,28 @@ function Viewer-Thumbs($project) {
   return ($items -join "`n")
 }
 
+function Photo-Grid($project) {
+  $images = @($project.gallery)
+  if ($images.Count -eq 0) { $images = @($project.image) }
+
+  $items = New-Object System.Collections.Generic.List[string]
+  for ($i = 0; $i -lt $images.Count; $i++) {
+    $src = Rel-Asset $images[$i]
+    $alt = Escape-Html "$($project.title) photo $($i + 1)"
+    $indexLabel = "{0:00}" -f ($i + 1)
+    $modifier = ""
+    if ($i -eq 0) { $modifier = " is-wide" }
+    $items.Add(@"
+          <button class="project-photo-tile$modifier" type="button" data-photo-tile data-full="$src" data-alt="$alt" data-index-label="$indexLabel" aria-label="Open photo $($i + 1)">
+            <span class="photo-tile-index">$indexLabel</span>
+            <img src="$src" alt="$alt" loading="lazy">
+          </button>
+"@)
+  }
+
+  return ($items -join "`n")
+}
+
 function Project-Page($project, [int]$index) {
   $previous = $projects[($index - 1 + $projects.Count) % $projects.Count]
   $next = $projects[($index + 1) % $projects.Count]
@@ -58,9 +80,11 @@ function Project-Page($project, [int]$index) {
   $indexLabel = Escape-Html $project.index
   $image = Rel-Asset $project.image
   $viewerThumbs = Viewer-Thumbs $project
-  $firstGallery = @($project.gallery)
-  if ($firstGallery.Count -eq 0) { $firstGallery = @($project.image) }
-  $firstImage = Rel-Asset $firstGallery[0]
+  $photoGrid = Photo-Grid $project
+  $imageList = @($project.gallery)
+  if ($imageList.Count -eq 0) { $imageList = @($project.image) }
+  $imageCount = $imageList.Count
+  $firstImage = Rel-Asset $imageList[0]
   $prevTitle = Escape-Html $previous.title
   $nextTitle = Escape-Html $next.title
   $prevHref = Project-Href $previous
@@ -82,12 +106,12 @@ function Project-Page($project, [int]$index) {
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a href="../../index.html#top">Home</a>
         <a href="../../index.html#studio">Studio</a>
+        <a href="../../index.html#services">Services</a>
         <div class="project-menu">
           <a class="is-active" href="../../index.html#projects">Projects</a>
           <div class="project-dropdown" data-project-dropdown></div>
         </div>
-        <a href="../../index.html#services">Services</a>
-        <a href="../../index.html#contact">Contact</a>
+        <a href="../../contact.html">Contact</a>
       </nav>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
         <span></span>
@@ -98,10 +122,10 @@ function Project-Page($project, [int]$index) {
     <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" data-mobile-menu>
       <a href="../../index.html#top">Home</a>
       <a href="../../index.html#studio">Studio</a>
+      <a href="../../index.html#services">Services</a>
       <a href="../../index.html#projects">Projects</a>
       <div class="mobile-project-list" data-mobile-project-list></div>
-      <a href="../../index.html#services">Services</a>
-      <a href="../../index.html#contact">Contact</a>
+      <a href="../../contact.html">Contact</a>
     </nav>
 
     <main class="project-page-main">
@@ -136,9 +160,9 @@ function Project-Page($project, [int]$index) {
         <div class="project-gallery-head">
           <div>
             <span class="section-num">[Gallery]</span>
-            <h2 id="gallery-title">Image Set</h2>
+            <h2 id="gallery-title">Featured View</h2>
           </div>
-          <p>A focused gallery from $title, arranged as a single view with a clear image sequence.</p>
+          <p>Step through the focused gallery for $title with previous and next controls. Use the zoom button or click the image to open the lightbox.</p>
         </div>
         <div class="project-viewer" data-project-viewer>
           <button class="viewer-control viewer-prev" type="button" aria-label="Previous image" data-viewer-prev>&larr;</button>
@@ -160,6 +184,20 @@ $viewerThumbs
         </div>
       </section>
 
+      <section class="project-photo-block" aria-labelledby="photo-grid-title">
+        <div class="project-photo-head">
+          <div>
+            <span class="section-num">[All Photos]</span>
+            <h2 id="photo-grid-title">Project Photos</h2>
+            <span class="photo-count">$imageCount images</span>
+          </div>
+          <p>The full set of imagery from $title. Click any photo to open it in the lightbox and step through the project at full size.</p>
+        </div>
+        <div class="project-photo-grid" data-photo-grid>
+$photoGrid
+        </div>
+      </section>
+
       <nav class="project-page-nav" aria-label="Adjacent projects">
         <a href="$prevHref">
           <span>Previous project</span>
@@ -174,17 +212,56 @@ $viewerThumbs
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <a class="brand-word" href="../../index.html#top">Pi Design Group.</a>
-        <nav aria-label="Footer navigation">
-          <a href="../../index.html#projects">Projects</a>
-          <a href="../../index.html#services">Services</a>
-          <a href="../../index.html#contact">Contact</a>
-        </nav>
-        <div class="footer-contact">
-          <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
-          <span>Calgary, Alberta</span>
+        <div class="footer-cta">
+          <div>
+            <span class="section-num">[Studio]</span>
+            <h2>Bring your landscape vision into focus.</h2>
+          </div>
+          <a class="footer-cta-button" href="../../contact.html">
+            <span>Start a project</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
         </div>
-        <p>&copy; 2026 PI Design Group. Landscape architectural services.</p>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <a class="brand-word" href="../../index.html#top">Pi Design Group.</a>
+            <p>Landscape architectural services for residential, commercial, and community developments across Alberta.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Studio</h4>
+            <ul>
+              <li><a href="../../index.html#top">Home</a></li>
+              <li><a href="../../index.html#studio">Studio</a></li>
+              <li><a href="../../index.html#services">Services</a></li>
+              <li><a href="../../index.html#projects">Projects</a></li>
+              <li><a href="../../contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li>Landscape Architecture</li>
+              <li>Community Planning</li>
+              <li>3D Visualization</li>
+              <li>Construction Drawings</li>
+              <li>Consultation</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <address>
+              <a href="tel:+14035104071">403-510-4071</a>
+              <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
+              <span>Calgary, Alberta</span>
+            </address>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 PI Design Group</span>
+          <span>Landscape Architectural Services</span>
+        </div>
       </div>
     </footer>
 

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Contact Pi Design Group for landscape architectural services across Alberta. Studio consultations, project briefs, and approvals support.">
+    <title>Contact | Pi Design Group.</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="contact-page">
+    <header class="site-header" data-header>
+      <a class="brand-word" href="index.html#top" aria-label="Pi Design Group home">Pi Design Group.</a>
+      <nav class="desktop-nav" aria-label="Primary navigation">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#studio">Studio</a>
+        <a href="index.html#services">Services</a>
+        <div class="project-menu">
+          <a href="index.html#projects">Projects</a>
+          <div class="project-dropdown" data-project-dropdown></div>
+        </div>
+        <a class="is-active" href="contact.html">Contact</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" data-mobile-menu>
+      <a href="index.html#top">Home</a>
+      <a href="index.html#studio">Studio</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#projects">Projects</a>
+      <div class="mobile-project-list" data-mobile-project-list></div>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <main>
+      <section class="contact-hero" aria-labelledby="contact-heading">
+        <div>
+          <span class="section-num">[Contact]</span>
+          <h1 id="contact-heading">Let's build better communities together.</h1>
+        </div>
+        <div class="contact-hero-aside">
+          <p>Tell us about your project. PI Design Group works with builders, developers, and project teams to shape outdoor spaces that move from concept to construction.</p>
+          <div class="pill-row">
+            <span>Calgary, Alberta</span>
+            <span>Mon - Fri</span>
+            <span>Reply within 1 business day</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-grid" aria-label="Contact details">
+        <div class="contact-form-block">
+          <span class="section-num">[Project Brief]</span>
+          <h2>Send us a note.</h2>
+          <p>Share a few details about your project and the kind of landscape support you're looking for. We'll come back to you with next steps.</p>
+
+          <form class="contact-form" action="mailto:peter@pidesigngroup.ca" method="post" enctype="text/plain">
+            <div class="field">
+              <label for="cf-name">Name</label>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="cf-company">Company</label>
+              <input id="cf-company" name="company" type="text" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="cf-email">Email</label>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required>
+            </div>
+            <div class="field">
+              <label for="cf-phone">Phone</label>
+              <input id="cf-phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            <div class="field field-full">
+              <label for="cf-type">Project Type</label>
+              <select id="cf-type" name="project_type">
+                <option value="">Select a project type</option>
+                <option>Residential landscape design</option>
+                <option>Commercial landscape design</option>
+                <option>New residential build / renovation</option>
+                <option>Community visioning</option>
+                <option>3D visualization</option>
+                <option>Construction drawings</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field field-full">
+              <label for="cf-message">Project Brief</label>
+              <textarea id="cf-message" name="message" placeholder="Tell us about scope, location, timeline, and any approvals or partners involved." required></textarea>
+            </div>
+            <div class="submit-row">
+              <p>By sending this brief you agree to be contacted by PI Design Group.</p>
+              <button class="contact-submit" type="submit">
+                <span>Send brief</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="contact-aside" aria-label="Direct contact details">
+          <div class="contact-card is-dark">
+            <span class="contact-card-label">Studio Direct</span>
+            <a class="contact-card-value" href="tel:+14035104071">403-510-4071</a>
+            <span class="contact-card-meta">Speak with the studio about a project, brief, or active proposal.</span>
+            <a class="contact-card-cta" href="tel:+14035104071">
+              <span>Call the studio</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card-label">Email</span>
+            <a class="contact-card-value" href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
+            <span class="contact-card-meta">Best for project briefs, references, and longer notes. We reply within one business day.</span>
+            <a class="contact-card-cta" href="mailto:peter@pidesigngroup.ca">
+              <span>Send an email</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+          </div>
+          <div class="contact-card">
+            <span class="contact-card-label">Studio</span>
+            <span class="contact-card-value">Calgary, Alberta</span>
+            <span class="contact-card-meta">Working with builders, developers, and project teams across Alberta and Western Canada.</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="contact-services-block" aria-labelledby="contact-services-head">
+        <div class="contact-services-head">
+          <div>
+            <span class="section-num">[How We Help]</span>
+            <h2 id="contact-services-head">From early concepts through approvals and construction.</h2>
+          </div>
+          <p>Choose the lane that fits your project. Each engagement is tailored to your scope, timeline, and the level of design support you need.</p>
+        </div>
+
+        <div class="contact-services-grid">
+          <article class="contact-service-tile">
+            <span>(01)</span>
+            <h3>Residential Landscape Design</h3>
+            <p>Lush gardens, serene pathways, and considered outdoor spaces, from initial planning through approvals and construction.</p>
+          </article>
+          <article class="contact-service-tile">
+            <span>(02)</span>
+            <h3>Commercial Landscape Design</h3>
+            <p>Streetscapes, outdoor seating, and brand-aligned landscapes that elevate retail, mixed-use, and neighborhood services.</p>
+          </article>
+          <article class="contact-service-tile">
+            <span>(03)</span>
+            <h3>New Builds &amp; Renovations</h3>
+            <p>Architectural planning, material selection, and modern aesthetics that guide every step of a new build or renovation.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-cta">
+          <div>
+            <span class="section-num">[Studio]</span>
+            <h2>Bring your landscape vision into focus.</h2>
+          </div>
+          <a class="footer-cta-button" href="contact.html">
+            <span>Start a project</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
+        </div>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <a class="brand-word" href="index.html#top">Pi Design Group.</a>
+            <p>Landscape architectural services for residential, commercial, and community developments across Alberta.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Studio</h4>
+            <ul>
+              <li><a href="index.html#top">Home</a></li>
+              <li><a href="index.html#studio">Studio</a></li>
+              <li><a href="index.html#services">Services</a></li>
+              <li><a href="index.html#projects">Projects</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li>Landscape Architecture</li>
+              <li>Community Planning</li>
+              <li>3D Visualization</li>
+              <li>Construction Drawings</li>
+              <li>Consultation</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <address>
+              <a href="tel:+14035104071">403-510-4071</a>
+              <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
+              <span>Calgary, Alberta</span>
+            </address>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 PI Design Group</span>
+          <span>Landscape Architectural Services</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="project-data.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

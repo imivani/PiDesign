@@ -13,12 +13,12 @@
       <nav class="desktop-nav" aria-label="Primary navigation">
         <a class="is-active" href="#top">Home</a>
         <a href="#studio">Studio</a>
+        <a href="#services">Services</a>
         <div class="project-menu">
           <a href="#projects">Projects</a>
           <div class="project-dropdown" data-project-dropdown></div>
         </div>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
+        <a href="contact.html">Contact</a>
       </nav>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
         <span></span>
@@ -29,10 +29,10 @@
     <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" data-mobile-menu>
       <a href="#top">Home</a>
       <a href="#studio">Studio</a>
+      <a href="#services">Services</a>
       <a href="#projects">Projects</a>
       <div class="mobile-project-list" data-mobile-project-list></div>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
 
     <main id="top">
@@ -251,47 +251,93 @@
         <div class="project-grid" data-project-grid aria-label="All project cards"></div>
       </section>
 
-      <section class="project-detail" data-project-detail aria-live="polite">
-        <div class="detail-copy">
-          <span class="section-num">[Gallery]</span>
-          <h2 data-detail-title>Redstone</h2>
-          <div class="detail-meta" data-detail-meta>2024 / Calgary / Community</div>
-          <p data-detail-description></p>
-          <p class="detail-credit" data-detail-credit></p>
-        </div>
-        <div class="detail-gallery">
-          <img data-detail-main src="" alt="">
-          <div class="detail-thumbs" data-detail-thumbs aria-label="Project image thumbnails"></div>
-        </div>
-      </section>
-
       <section class="contact-band" id="contact" aria-labelledby="contact-heading">
-        <div>
-          <span class="section-num">[Contact]</span>
-          <h2 id="contact-heading">Let's build better communities together.</h2>
+        <div class="contact-band-copy">
+          <div>
+            <span class="section-num">[Contact]</span>
+            <h2 id="contact-heading">Let's build better communities together.</h2>
+          </div>
+          <div class="contact-band-bottom">
+            <address>
+              <a href="tel:+14035104071">403-510-4071</a>
+              <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
+              <span>Calgary, Alberta</span>
+            </address>
+            <a class="contact-button" href="contact.html">
+              <span>Start a project</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+          </div>
         </div>
-        <address>
-          <a href="tel:+14035104071">403-510-4071</a>
-          <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
-          <span>Calgary, Alberta</span>
-        </address>
-        <a class="contact-button" href="mailto:peter@pidesigngroup.ca">Get in touch</a>
+        <div class="contact-band-photos">
+          <figure>
+            <img src="assets/site/projects/redstone/cover.jpg" alt="Redstone community landscape">
+            <figcaption><span>Redstone</span><span>Community</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/site/projects/seton/cover.jpg" alt="Seton Crossing commercial landscape">
+            <figcaption><span>Seton</span><span>Commercial</span></figcaption>
+          </figure>
+          <figure>
+            <img src="assets/site/projects/darcy/cover.jpg" alt="D'Arcy residential landscape">
+            <figcaption><span>D'Arcy</span><span>Residential</span></figcaption>
+          </figure>
+        </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <a class="brand-word" href="#top">Pi Design Group.</a>
-        <nav aria-label="Footer navigation">
-          <a href="#projects">Projects</a>
-          <a href="#services">Services</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <div class="footer-contact">
-          <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
-          <span>Calgary, Alberta</span>
+        <div class="footer-cta">
+          <div>
+            <span class="section-num">[Studio]</span>
+            <h2>Bring your landscape vision into focus.</h2>
+          </div>
+          <a class="footer-cta-button" href="contact.html">
+            <span>Start a project</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
         </div>
-        <p>&copy; 2026 PI Design Group. Landscape architectural services.</p>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <a class="brand-word" href="#top">Pi Design Group.</a>
+            <p>Landscape architectural services for residential, commercial, and community developments across Alberta.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Studio</h4>
+            <ul>
+              <li><a href="#top">Home</a></li>
+              <li><a href="#studio">Studio</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li>Landscape Architecture</li>
+              <li>Community Planning</li>
+              <li>3D Visualization</li>
+              <li>Construction Drawings</li>
+              <li>Consultation</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <address>
+              <a href="tel:+14035104071">403-510-4071</a>
+              <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
+              <span>Calgary, Alberta</span>
+            </address>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 PI Design Group</span>
+          <span>Landscape Architectural Services</span>
+        </div>
       </div>
     </footer>
 

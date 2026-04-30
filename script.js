@@ -33,7 +33,8 @@
     description: document.querySelector("[data-detail-description]"),
     credit: document.querySelector("[data-detail-credit]"),
     main: document.querySelector("[data-detail-main]"),
-    thumbs: document.querySelector("[data-detail-thumbs]")
+    thumbs: document.querySelector("[data-detail-thumbs]"),
+    photoGrid: document.querySelector("[data-photo-grid]")
   };
 
   let activeFilter = "All";
@@ -97,7 +98,7 @@
 
   function setupReveal() {
     const baseItems = document.querySelectorAll(
-      ".hero-board article, .offer-section, .service-focus-section, .selected-head, .project-showcase, .archive-head, .project-tools, .project-detail, .contact-band"
+      ".hero-board article, .offer-section, .service-focus-section, .selected-head, .project-showcase, .archive-head, .project-tools, .project-detail, .contact-band, .project-photo-block, .contact-hero, .contact-form-block, .contact-aside, .contact-services-block"
     );
 
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -285,23 +286,40 @@
     button.dataset.slug = project.slug;
     button.setAttribute("aria-label", `View ${project.title}`);
 
-    button.append(createImage(project.image, `${project.title} project image`));
+    const media = document.createElement("span");
+    media.className = "card-media";
+
+    const indexBadge = document.createElement("span");
+    indexBadge.className = "card-index";
+    indexBadge.textContent = project.index;
+
+    const categoryBadge = document.createElement("span");
+    categoryBadge.className = "card-category";
+    categoryBadge.textContent = project.category;
+
+    media.append(indexBadge, categoryBadge, createImage(project.image, `${project.title} project image`));
 
     const copy = document.createElement("span");
     copy.className = "card-copy";
-
-    const index = document.createElement("span");
-    index.className = "card-index";
-    index.textContent = project.index;
 
     const title = document.createElement("h3");
     title.textContent = project.title;
 
     const meta = document.createElement("p");
-    meta.textContent = projectMeta(project);
+    meta.textContent = `${project.location}, AB · ${project.year}`;
 
-    copy.append(index, title, meta);
-    button.append(copy);
+    const cta = document.createElement("span");
+    cta.className = "card-cta";
+    const ctaLabel = document.createElement("span");
+    ctaLabel.textContent = "View project";
+    cta.append(ctaLabel);
+    cta.insertAdjacentHTML(
+      "beforeend",
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>'
+    );
+
+    copy.append(title, meta, cta);
+    button.append(media, copy);
     return button;
   }
 
@@ -375,6 +393,18 @@
         }
       });
     }
+  }
+
+  function initHeaderScroll() {
+    const header = document.querySelector("[data-header]");
+    if (!header) return;
+
+    const apply = () => {
+      const next = window.scrollY > 8;
+      header.classList.toggle("is-scrolled", next);
+    };
+    apply();
+    window.addEventListener("scroll", apply, { passive: true });
   }
 
   function initMenu() {
@@ -572,6 +602,12 @@
       event.preventDefault();
       openLightbox(activeIndex);
     });
+
+    const photoTiles = Array.from(document.querySelectorAll("[data-photo-tile]"));
+    photoTiles.forEach((tile, index) => {
+      tile.addEventListener("click", () => openLightbox(index));
+    });
+
     show(0);
   }
 
@@ -643,6 +679,7 @@
   renderProjects();
   selectProject(selectedProject, false);
   initHeroVideo();
+  initHeaderScroll();
   initMenu();
   initNavState();
   initProjectViewer();

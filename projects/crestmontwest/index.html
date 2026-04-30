@@ -18,7 +18,7 @@
           <div class="project-dropdown" data-project-dropdown></div>
         </div>
         <a href="../../index.html#services">Services</a>
-        <a href="../../index.html#contact">Contact</a>
+        <a href="../../contact.html">Contact</a>
       </nav>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
         <span></span>
@@ -32,7 +32,7 @@
       <a href="../../index.html#projects">Projects</a>
       <div class="mobile-project-list" data-mobile-project-list></div>
       <a href="../../index.html#services">Services</a>
-      <a href="../../index.html#contact">Contact</a>
+      <a href="../../contact.html">Contact</a>
     </nav>
 
     <main class="project-page-main">
@@ -67,9 +67,9 @@
         <div class="project-gallery-head">
           <div>
             <span class="section-num">[Gallery]</span>
-            <h2 id="gallery-title">Image Set</h2>
+            <h2 id="gallery-title">Featured View</h2>
           </div>
-          <p>A focused gallery from Crestmont, arranged as a single view with a clear image sequence.</p>
+          <p>Step through the focused gallery for Crestmont with previous and next controls. Use the zoom button or click the image to open the lightbox.</p>
         </div>
         <div class="project-viewer" data-project-viewer>
           <button class="viewer-control viewer-prev" type="button" aria-label="Previous image" data-viewer-prev>&larr;</button>
@@ -102,6 +102,35 @@
         </div>
       </section>
 
+      <section class="project-photo-block" aria-labelledby="photo-grid-title">
+        <div class="project-photo-head">
+          <div>
+            <span class="section-num">[All Photos]</span>
+            <h2 id="photo-grid-title">Project Photos</h2>
+            <span class="photo-count">4 images</span>
+          </div>
+          <p>The full set of imagery from Crestmont. Click any photo to open it in the lightbox and step through the project at full size.</p>
+        </div>
+        <div class="project-photo-grid" data-photo-grid>
+          <button class="project-photo-tile is-wide" type="button" data-photo-tile data-full="../../assets/site/projects/crestmontwest/cover.jpg" data-alt="Crestmont photo 1" data-index-label="01" aria-label="Open photo 1">
+            <span class="photo-tile-index">01</span>
+            <img src="../../assets/site/projects/crestmontwest/cover.jpg" alt="Crestmont photo 1" loading="lazy">
+          </button>
+          <button class="project-photo-tile" type="button" data-photo-tile data-full="../../assets/site/projects/crestmontwest/gallery-2.jpg" data-alt="Crestmont photo 2" data-index-label="02" aria-label="Open photo 2">
+            <span class="photo-tile-index">02</span>
+            <img src="../../assets/site/projects/crestmontwest/gallery-2.jpg" alt="Crestmont photo 2" loading="lazy">
+          </button>
+          <button class="project-photo-tile" type="button" data-photo-tile data-full="../../assets/site/projects/crestmontwest/gallery-3.jpg" data-alt="Crestmont photo 3" data-index-label="03" aria-label="Open photo 3">
+            <span class="photo-tile-index">03</span>
+            <img src="../../assets/site/projects/crestmontwest/gallery-3.jpg" alt="Crestmont photo 3" loading="lazy">
+          </button>
+          <button class="project-photo-tile" type="button" data-photo-tile data-full="../../assets/site/projects/crestmontwest/gallery-4.jpg" data-alt="Crestmont photo 4" data-index-label="04" aria-label="Open photo 4">
+            <span class="photo-tile-index">04</span>
+            <img src="../../assets/site/projects/crestmontwest/gallery-4.jpg" alt="Crestmont photo 4" loading="lazy">
+          </button>
+        </div>
+      </section>
+
       <nav class="project-page-nav" aria-label="Adjacent projects">
         <a href="../../projects/drake/index.html">
           <span>Previous project</span>
@@ -116,17 +145,56 @@
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <a class="brand-word" href="../../index.html#top">Pi Design Group.</a>
-        <nav aria-label="Footer navigation">
-          <a href="../../index.html#projects">Projects</a>
-          <a href="../../index.html#services">Services</a>
-          <a href="../../index.html#contact">Contact</a>
-        </nav>
-        <div class="footer-contact">
-          <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
-          <span>Calgary, Alberta</span>
+        <div class="footer-cta">
+          <div>
+            <span class="section-num">[Studio]</span>
+            <h2>Bring your landscape vision into focus.</h2>
+          </div>
+          <a class="footer-cta-button" href="../../contact.html">
+            <span>Start a project</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+          </a>
         </div>
-        <p>&copy; 2026 PI Design Group. Landscape architectural services.</p>
+
+        <div class="footer-cols">
+          <div class="footer-col">
+            <a class="brand-word" href="../../index.html#top">Pi Design Group.</a>
+            <p>Landscape architectural services for residential, commercial, and community developments across Alberta.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Studio</h4>
+            <ul>
+              <li><a href="../../index.html#top">Home</a></li>
+              <li><a href="../../index.html#studio">Studio</a></li>
+              <li><a href="../../index.html#services">Services</a></li>
+              <li><a href="../../index.html#projects">Projects</a></li>
+              <li><a href="../../contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li>Landscape Architecture</li>
+              <li>Community Planning</li>
+              <li>3D Visualization</li>
+              <li>Construction Drawings</li>
+              <li>Consultation</li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <address>
+              <a href="tel:+14035104071">403-510-4071</a>
+              <a href="mailto:peter@pidesigngroup.ca">peter@pidesigngroup.ca</a>
+              <span>Calgary, Alberta</span>
+            </address>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 PI Design Group</span>
+          <span>Landscape Architectural Services</span>
+        </div>
       </div>
     </footer>
 
