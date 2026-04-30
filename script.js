@@ -646,15 +646,50 @@
     button.addEventListener("click", () => setFilter(button.dataset.filter));
   });
 
+  const offerPreview = document.querySelector("[data-offer-preview]");
+  const offerPreviewImage = document.querySelector("[data-offer-image]");
+  const offerPreviewTag = document.querySelector("[data-offer-tag]");
+  const offerPreviewProject = document.querySelector("[data-offer-project]");
+  const offerPreviewTitle = document.querySelector("[data-offer-title]");
+  const offerPreviewBlurb = document.querySelector("[data-offer-blurb]");
+
+  function updateOfferPreview(button) {
+    if (!offerPreview) return;
+    const num = button.querySelector(".offer-num")?.textContent || "";
+    const title = button.dataset.service || button.querySelector("strong")?.textContent || "";
+    const image = button.dataset.image;
+    const project = button.dataset.project || "";
+    const blurb = button.dataset.blurb || "";
+
+    offerPreview.classList.add("is-changing");
+    window.setTimeout(() => {
+      if (offerPreviewImage && image) {
+        offerPreviewImage.src = image;
+        offerPreviewImage.alt = `${title} preview`;
+      }
+      if (offerPreviewTag) offerPreviewTag.textContent = `${num} ${title}`.trim();
+      if (offerPreviewProject) offerPreviewProject.textContent = project;
+      if (offerPreviewTitle) offerPreviewTitle.textContent = title;
+      if (offerPreviewBlurb) offerPreviewBlurb.textContent = blurb;
+      offerPreview.classList.remove("is-changing");
+    }, 110);
+  }
+
   offerButtons.forEach((button) => {
     button.setAttribute("aria-pressed", String(button.classList.contains("is-active")));
-    button.addEventListener("click", () => {
+
+    const activate = () => {
       offerButtons.forEach((item) => {
         const isActive = item === button;
         item.classList.toggle("is-active", isActive);
         item.setAttribute("aria-pressed", String(isActive));
       });
-    });
+      updateOfferPreview(button);
+    };
+
+    button.addEventListener("click", activate);
+    button.addEventListener("mouseenter", activate);
+    button.addEventListener("focus", activate);
   });
 
   if (searchInput) {
