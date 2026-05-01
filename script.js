@@ -98,7 +98,7 @@
 
   function setupReveal() {
     const baseItems = document.querySelectorAll(
-      ".hero-board article, .offer-section, .service-focus-section, .selected-head, .project-showcase, .archive-head, .project-tools, .project-detail, .contact-band, .project-photo-block, .contact-hero, .contact-form-block, .contact-aside, .contact-services-block"
+      ".hero-board article, .offer-section, .selected-head, .project-showcase, .archive-head, .project-tools, .project-detail, .project-photo-block, .contact-form-block, .contact-aside"
     );
 
     if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -168,8 +168,7 @@
     if (!selectedCardsMount) return;
     selectedCardsMount.replaceChildren();
 
-    const featured = projects.filter((project) => project.featured).slice(0, 4);
-    const cardProjects = featured.length ? featured : projects.slice(0, 4);
+    const cardProjects = projects.length > 8 ? projects.slice(3, 11) : projects.slice(0, 8);
 
     cardProjects.forEach((project) => {
       const link = document.createElement("a");
@@ -279,9 +278,18 @@
     }
   }
 
+  function isPlaceholderProject(project) {
+    if (!project) return false;
+    if (project.placeholder === true) return true;
+    const image = String(project.image || "");
+    return image.includes("/site/hero.jpg") || image.endsWith("hero.jpg");
+  }
+
   function createProjectCard(project) {
     const button = document.createElement("a");
     button.className = "project-card";
+    const placeholder = isPlaceholderProject(project);
+    if (placeholder) button.classList.add("is-placeholder");
     button.href = projectUrl(project);
     button.dataset.slug = project.slug;
     button.setAttribute("aria-label", `View ${project.title}`);
@@ -297,7 +305,14 @@
     categoryBadge.className = "card-category";
     categoryBadge.textContent = project.category;
 
-    media.append(indexBadge, categoryBadge, createImage(project.image, `${project.title} project image`));
+    if (placeholder) {
+      const placeholderMark = document.createElement("span");
+      placeholderMark.className = "card-placeholder-mark";
+      placeholderMark.textContent = project.index;
+      media.append(indexBadge, categoryBadge, placeholderMark);
+    } else {
+      media.append(indexBadge, categoryBadge, createImage(project.image, `${project.title} project image`));
+    }
 
     const copy = document.createElement("span");
     copy.className = "card-copy";
@@ -311,7 +326,7 @@
     const cta = document.createElement("span");
     cta.className = "card-cta";
     const ctaLabel = document.createElement("span");
-    ctaLabel.textContent = "View project";
+    ctaLabel.textContent = placeholder ? "Coming soon" : "View project";
     cta.append(ctaLabel);
     cta.insertAdjacentHTML(
       "beforeend",
@@ -321,6 +336,53 @@
     copy.append(title, meta, cta);
     button.append(media, copy);
     return button;
+  }
+
+  const MOBILE_PROJECT_LIMIT = 10;
+  let mobileExpanded = false;
+  let mobileToggleHandle = null;
+
+  function applyMobileCollapse() {
+    if (!gridMount) return;
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+    const cards = Array.from(gridMount.querySelectorAll(".project-card"));
+
+    cards.forEach((card, index) => {
+      const shouldHide = isMobile && !mobileExpanded && index >= MOBILE_PROJECT_LIMIT;
+      card.classList.toggle("is-mobile-hidden", shouldHide);
+    });
+
+    if (mobileToggleHandle) {
+      const hidden = isMobile && !mobileExpanded && cards.length > MOBILE_PROJECT_LIMIT;
+      mobileToggleHandle.button.hidden = !hidden;
+      const remaining = Math.max(cards.length - MOBILE_PROJECT_LIMIT, 0);
+      mobileToggleHandle.label.textContent = `Show ${remaining} more project${remaining === 1 ? "" : "s"}`;
+    }
+  }
+
+  function ensureMobileToggle() {
+    if (mobileToggleHandle || !gridMount || !gridMount.parentElement) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "project-grid-more";
+    button.hidden = true;
+    const label = document.createElement("span");
+    label.textContent = "Show more projects";
+    button.append(label);
+    button.insertAdjacentHTML(
+      "beforeend",
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>'
+    );
+
+    button.addEventListener("click", () => {
+      mobileExpanded = true;
+      applyMobileCollapse();
+    });
+
+    gridMount.parentElement.insertBefore(button, gridMount.nextSibling);
+    mobileToggleHandle = { button, label };
+
+    window.addEventListener("resize", applyMobileCollapse, { passive: true });
   }
 
   function renderProjects() {
@@ -346,6 +408,10 @@
     }
 
     if (selectedProject) setActiveCards(selectedProject);
+
+    ensureMobileToggle();
+    mobileExpanded = false;
+    applyMobileCollapse();
   }
 
   function setFilter(nextFilter) {
@@ -611,6 +677,41 @@
     show(0);
   }
 
+  function initContactForm() {
+    const form = document.querySelector("[data-contact-form]");
+    if (!form) return;
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const recipient = form.dataset.recipient || "peter@pidesigngroup.ca";
+      const name = String(data.get("name") || "").trim();
+      const company = String(data.get("company") || "").trim();
+      const email = String(data.get("email") || "").trim();
+      const phone = String(data.get("phone") || "").trim();
+      const projectType = String(data.get("project_type") || "").trim();
+      const message = String(data.get("message") || "").trim();
+      const subjectName = company || name || "Website inquiry";
+      const subject = `PI Design Group project brief - ${subjectName}`;
+      const body = [
+        "New project brief from the PI Design Group website.",
+        "",
+        `Name: ${name}`,
+        `Company: ${company || "N/A"}`,
+        `Email: ${email}`,
+        `Phone: ${phone || "N/A"}`,
+        `Project type: ${projectType || "N/A"}`,
+        "",
+        "Project brief:",
+        message
+      ].join("\n");
+
+      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  }
+
   function initPageTransitions() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion) return;
@@ -718,5 +819,6 @@
   initMenu();
   initNavState();
   initProjectViewer();
+  initContactForm();
   initPageTransitions();
 })();

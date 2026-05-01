@@ -481,5 +481,380 @@ window.PI_PROJECTS = [
       "assets/site/projects/miscresidential/gallery-4.jpg"
     ],
     "featured": false
+  },
+  {
+    "slug": "evanston-ii",
+    "index": "28",
+    "title": "Evanston II",
+    "category": "Residential",
+    "year": "2019",
+    "location": "Calgary",
+    "description": "Evanston II is listed in PI Design Group's corporate project experience as a Residential Multifamily project in Calgary. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2019.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "arrive-at-sage-meadows",
+    "index": "29",
+    "title": "Arrive at Sage Meadows",
+    "category": "Residential",
+    "year": "2020",
+    "location": "Calgary",
+    "description": "Arrive at Sage Meadows is listed in PI Design Group's corporate project experience as a Row Housing project in Calgary. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2020.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "ambrose-by-partners",
+    "index": "30",
+    "title": "Ambrose by Partners",
+    "category": "Residential",
+    "year": "2021",
+    "location": "Calgary",
+    "description": "Ambrose by Partners is listed in PI Design Group's corporate project experience as a Residential Multifamily project in Calgary. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2021.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "dicks-ogden-warehouse",
+    "index": "31",
+    "title": "Dick's Ogden Warehouse",
+    "category": "Industrial",
+    "year": "2021",
+    "location": "Calgary",
+    "description": "Dick's Ogden Warehouse is listed in PI Design Group's corporate project experience as a Commercial / Industrial project in Calgary. The project client is Rona. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2021.",
+    "credit": "Client: Rona",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "sora-sanitary-lift-station",
+    "index": "32",
+    "title": "Sora Sanitary Lift Station",
+    "category": "Industrial",
+    "year": "2022",
+    "location": "Calgary",
+    "description": "Sora Sanitary Lift Station is listed in PI Design Group's corporate project experience as a Industrial project in Calgary. The project client is City. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2022.",
+    "credit": "Client: City",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "st-patrick-church",
+    "index": "33",
+    "title": "St Patrick Church",
+    "category": "Institutional",
+    "year": "2023",
+    "location": "Calgary",
+    "description": "St Patrick Church is listed in PI Design Group's corporate project experience as a Historical project in Calgary. The project client is Church. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2023.",
+    "credit": "Client: Church",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "wedderburn-okotoks",
+    "index": "34",
+    "title": "Wedderburn Okotoks",
+    "category": "Residential",
+    "year": "2023",
+    "location": "Okotoks",
+    "description": "Wedderburn Okotoks is listed in PI Design Group's corporate project experience as a Multifamily Stackable project in Okotoks. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2023.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "emerge-seton",
+    "index": "35",
+    "title": "Emerge Seton",
+    "category": "Residential",
+    "year": "2023",
+    "location": "Calgary",
+    "description": "Emerge Seton is listed in PI Design Group's corporate project experience as a Residential Multifamily project in Calgary. The project client is Avalon. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2023.",
+    "credit": "Client: Avalon",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "nortera-westco",
+    "index": "36",
+    "title": "Nortera - Westco",
+    "category": "Industrial",
+    "year": "2023",
+    "location": "Calgary",
+    "description": "Nortera - Westco is listed in PI Design Group's corporate project experience as a Industrial project in Calgary. The project client is Nortera. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2023.",
+    "credit": "Client: Nortera",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "first-assembly-south-calgary-campus",
+    "index": "37",
+    "title": "First Assembly South Calgary Campus",
+    "category": "Institutional",
+    "year": "2023",
+    "location": "Calgary",
+    "description": "First Assembly South Calgary Campus is listed in PI Design Group's corporate project experience as a Institutional project in Calgary. The project client is Church. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2023.",
+    "credit": "Client: Church",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "810-10th-street-accommodation",
+    "index": "38",
+    "title": "810 10th Street Accommodation",
+    "category": "Accommodation",
+    "year": "2024",
+    "location": "Canmore",
+    "description": "810 10th Street Accommodation is listed in PI Design Group's corporate project experience as a Residential / Accommodation / Stackable project in Canmore. The project client is Base-Camp Resorts. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Base-Camp Resorts",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "creek-grove-at-sage",
+    "index": "39",
+    "title": "Creek Grove at Sage",
+    "category": "Residential",
+    "year": "2024",
+    "location": "Calgary",
+    "description": "Creek Grove at Sage is listed in PI Design Group's corporate project experience as a Residential Multifamily project in Calgary. The project client is Sky Vision Development. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Sky Vision Development",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "grand-touring",
+    "index": "40",
+    "title": "Grand Touring",
+    "category": "Commercial",
+    "year": "2024",
+    "location": "Calgary",
+    "description": "Grand Touring is listed in PI Design Group's corporate project experience as a Commercial / Industrial project in Calgary. The project client is Grand Touring. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Grand Touring",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "the-vintage",
+    "index": "41",
+    "title": "The Vintage",
+    "category": "Residential",
+    "year": "2024",
+    "location": "Calgary",
+    "description": "The Vintage is listed in PI Design Group's corporate project experience as a Multifamily Stackable project in Calgary. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "high-river-apartment",
+    "index": "42",
+    "title": "High River Apartment",
+    "category": "Residential",
+    "year": "2024",
+    "location": "High River",
+    "description": "High River Apartment is listed in PI Design Group's corporate project experience as a Multifamily Stackable project in High River. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "1702-bend",
+    "index": "43",
+    "title": "1702 BEND",
+    "category": "Accommodation",
+    "year": "2024",
+    "location": "Revelstoke",
+    "description": "1702 BEND is listed in PI Design Group's corporate project experience as a Residential / Accommodation / Stackable project in Revelstoke. The project client is Base-Camp Resorts. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Base-Camp Resorts",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "wedderburn-phase-12",
+    "index": "44",
+    "title": "Wedderburn Phase 12",
+    "category": "Residential",
+    "year": "2024",
+    "location": "Okotoks",
+    "description": "Wedderburn Phase 12 is listed in PI Design Group's corporate project experience as a Row Housing project in Okotoks. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "keystone",
+    "index": "45",
+    "title": "Keystone",
+    "category": "Residential",
+    "year": "2024",
+    "location": "Calgary",
+    "description": "Keystone is listed in PI Design Group's corporate project experience as a Row Housing project in Calgary. The project client is Partners. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: Partners",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "seton-sls",
+    "index": "46",
+    "title": "Seton SLS",
+    "category": "Industrial",
+    "year": "2024",
+    "location": "Calgary",
+    "description": "Seton SLS is listed in PI Design Group's corporate project experience as a Industrial project in Calgary. The project client is City. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2024.",
+    "credit": "Client: City",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "mahogany-towns",
+    "index": "47",
+    "title": "Mahogany Towns",
+    "category": "Residential",
+    "year": "2025",
+    "location": "Calgary",
+    "description": "Mahogany Towns is listed in PI Design Group's corporate project experience as a Multifamily Stackable project in Calgary. The project client is Excel. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2025.",
+    "credit": "Client: Excel",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "colliery-parc",
+    "index": "48",
+    "title": "Colliery Parc",
+    "category": "Residential",
+    "year": "2025",
+    "location": "Canmore",
+    "description": "Colliery Parc is listed in PI Design Group's corporate project experience as a Multifamily Stackable project in Canmore. The project client is Avalon. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2025.",
+    "credit": "Client: Avalon",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "silverton-multifamily",
+    "index": "49",
+    "title": "Silverton Multifamily",
+    "category": "Residential",
+    "year": "2025",
+    "location": "Calgary",
+    "description": "Silverton Multifamily is listed in PI Design Group's corporate project experience as a Residential Multifamily project in Calgary. The project client is Mountain Pacific Homes. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2025.",
+    "credit": "Client: Mountain Pacific Homes",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "williams-street",
+    "index": "50",
+    "title": "Williams Street",
+    "category": "Accommodation",
+    "year": "In progress",
+    "location": "Canmore",
+    "description": "Williams Street is listed in PI Design Group's corporate project experience as a Residential / Accommodation / Stackable project in Canmore. The project client is Basecamp. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: n/c.",
+    "credit": "Client: Basecamp",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "daycare-choice",
+    "index": "51",
+    "title": "Daycare Choice",
+    "category": "Institutional",
+    "year": "2025",
+    "location": "Calgary",
+    "description": "Daycare Choice is listed in PI Design Group's corporate project experience as a Institutional project in Calgary. The project client is Choice Properties. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: Completed 2025.",
+    "credit": "Client: Choice Properties",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "slug": "cave-avenue",
+    "index": "52",
+    "title": "Cave Avenue",
+    "category": "Accommodation",
+    "year": "In progress",
+    "location": "Banff",
+    "description": "Cave Avenue is listed in PI Design Group's corporate project experience as a Residential / Accommodation / Stackable project in Banff. The project client is Highpoint. PI Design Group's landscape architectural scope supports concept development, planting and material direction, municipal coordination, and construction-ready documentation. Project status: n/c.",
+    "credit": "Client: Highpoint",
+    "image": "assets/site/hero.jpg",
+    "gallery": [
+      "assets/site/hero.jpg"
+    ],
+    "featured": false
   }
 ];

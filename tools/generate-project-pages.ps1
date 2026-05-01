@@ -80,10 +80,8 @@ function Project-Page($project, [int]$index) {
   $indexLabel = Escape-Html $project.index
   $image = Rel-Asset $project.image
   $viewerThumbs = Viewer-Thumbs $project
-  $photoGrid = Photo-Grid $project
   $imageList = @($project.gallery)
   if ($imageList.Count -eq 0) { $imageList = @($project.image) }
-  $imageCount = $imageList.Count
   $firstImage = Rel-Asset $imageList[0]
   $prevTitle = Escape-Html $previous.title
   $nextTitle = Escape-Html $next.title
@@ -160,9 +158,9 @@ function Project-Page($project, [int]$index) {
         <div class="project-gallery-head">
           <div>
             <span class="section-num">[Gallery]</span>
-            <h2 id="gallery-title">Featured View</h2>
+            <h2 id="gallery-title">Project Gallery</h2>
           </div>
-          <p>Step through the focused gallery for $title with previous and next controls. Use the zoom button or click the image to open the lightbox.</p>
+          <p>Step through the gallery for $title with previous and next controls. Use the zoom button or click the image to open the lightbox.</p>
         </div>
         <div class="project-viewer" data-project-viewer>
           <button class="viewer-control viewer-prev" type="button" aria-label="Previous image" data-viewer-prev>&larr;</button>
@@ -181,20 +179,6 @@ function Project-Page($project, [int]$index) {
         </div>
         <div class="project-viewer-thumbs" data-viewer-thumbs>
 $viewerThumbs
-        </div>
-      </section>
-
-      <section class="project-photo-block" aria-labelledby="photo-grid-title">
-        <div class="project-photo-head">
-          <div>
-            <span class="section-num">[All Photos]</span>
-            <h2 id="photo-grid-title">Project Photos</h2>
-            <span class="photo-count">$imageCount images</span>
-          </div>
-          <p>The full set of imagery from $title. Click any photo to open it in the lightbox and step through the project at full size.</p>
-        </div>
-        <div class="project-photo-grid" data-photo-grid>
-$photoGrid
         </div>
       </section>
 
@@ -229,7 +213,7 @@ $photoGrid
             <p>Landscape architectural services for residential, commercial, and community developments across Alberta.</p>
           </div>
           <div class="footer-col">
-            <h4>Studio</h4>
+            <h4>Explore</h4>
             <ul>
               <li><a href="../../index.html#top">Home</a></li>
               <li><a href="../../index.html#studio">Studio</a></li>
