@@ -155,10 +155,13 @@
 
     menuTargets.forEach((target) => {
       target.replaceChildren();
-      projects.forEach((project) => {
+      projects.forEach((project, index) => {
         const link = document.createElement("a");
         link.href = projectUrl(project);
         link.textContent = project.title;
+        if (target === mobileProjectList) {
+          link.style.setProperty("--menu-delay", `${140 + Math.min(index, 18) * 12}ms`);
+        }
         target.append(link);
       });
     });
@@ -377,6 +380,19 @@
     button.addEventListener("click", () => {
       mobileExpanded = true;
       applyMobileCollapse();
+      const revealedCards = Array.from(gridMount.querySelectorAll(".project-card")).slice(MOBILE_PROJECT_LIMIT);
+      window.requestAnimationFrame(() => {
+        revealedCards.forEach((card, index) => {
+          card.style.setProperty("--reveal-delay", `${Math.min(index, 14) * 24}ms`);
+          card.classList.add("is-expanding");
+        });
+        window.setTimeout(() => {
+          revealedCards.forEach((card) => {
+            card.classList.remove("is-expanding");
+            card.style.removeProperty("--reveal-delay");
+          });
+        }, 900);
+      });
     });
 
     gridMount.parentElement.insertBefore(button, gridMount.nextSibling);
@@ -476,19 +492,28 @@
   function initMenu() {
     if (!menuToggle || !mobileMenu) return;
 
-    menuToggle.addEventListener("click", () => {
-      const next = menuToggle.getAttribute("aria-expanded") !== "true";
+    const setMenuOpen = (next) => {
       menuToggle.setAttribute("aria-expanded", String(next));
+      menuToggle.setAttribute("aria-label", next ? "Close menu" : "Open menu");
       mobileMenu.classList.toggle("is-open", next);
       document.body.classList.toggle("menu-open", next);
+    };
+
+    menuToggle.addEventListener("click", () => {
+      const next = menuToggle.getAttribute("aria-expanded") !== "true";
+      setMenuOpen(next);
     });
 
     mobileMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        menuToggle.setAttribute("aria-expanded", "false");
-        mobileMenu.classList.remove("is-open");
-        document.body.classList.remove("menu-open");
+        setMenuOpen(false);
       });
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && mobileMenu.classList.contains("is-open")) {
+        setMenuOpen(false);
+      }
     });
   }
 

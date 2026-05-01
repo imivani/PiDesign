@@ -712,3 +712,341 @@ img {
     box-shadow: none;
   }
 }
+
+/* ==================================================================== */
+/* 3-PAGE CORPORATE PROFILE                                             */
+/* ==================================================================== */
+
+/* ---- PAGE 02 — STUDIO + TEAM + SERVICES ---- */
+.page-studio {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 6mm;
+  padding-bottom: 24mm;
+  overflow: hidden;
+}
+
+.page-mark {
+  display: none;
+}
+
+.page-studio > * {
+  position: relative;
+  z-index: 1;
+}
+
+.profile-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(38mm, 46mm);
+  gap: 8mm;
+  margin-top: 1mm;
+  align-items: stretch;
+}
+
+.profile-intro-copy {
+  display: grid;
+  gap: 3mm;
+  align-content: start;
+}
+
+.profile-intro h2 {
+  margin: 2mm 0 1mm;
+  max-width: 130mm;
+  font-size: 22pt;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+.profile-intro p {
+  margin: 0;
+  font-size: 8.6pt;
+  line-height: 1.45;
+  color: rgba(9, 11, 16, 0.78);
+  max-width: 130mm;
+}
+
+.profile-intro-art {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 2.5mm;
+  min-height: 0;
+}
+
+.profile-intro-art figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 2.5mm;
+  background: var(--charcoal);
+}
+
+.profile-intro-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-intro-art figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.profile-intro-art figcaption {
+  position: absolute;
+  z-index: 2;
+  left: 3mm;
+  bottom: 3mm;
+  display: inline-flex;
+  align-items: center;
+  height: 5mm;
+  padding: 0 2.5mm;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--white);
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.principals {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5mm;
+}
+
+.principal-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(26mm, 30mm);
+  gap: 0;
+  padding: 0;
+  border-radius: 3mm;
+  background: var(--sand);
+  overflow: hidden;
+  min-height: 44mm;
+}
+
+.principal-card-text {
+  display: grid;
+  gap: 1mm;
+  padding: 5mm 5mm 5mm 5mm;
+  align-content: center;
+}
+
+.principal-card-photo {
+  position: relative;
+  background: var(--charcoal);
+}
+
+.principal-card-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.principal-card-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.principal-card-credit {
+  position: absolute;
+  z-index: 2;
+  left: 3mm;
+  bottom: 3mm;
+  display: inline-flex;
+  align-items: center;
+  height: 5mm;
+  padding: 0 2.5mm;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+  font-size: 6.5pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.principal-card .principal-tag {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.55);
+}
+
+.principal-card h3 {
+  margin: 1mm 0 0;
+  font-size: 18pt;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.principal-card .principal-creds {
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(9, 11, 16, 0.6);
+}
+
+.principal-card p {
+  margin: 2mm 0 0;
+  font-size: 9pt;
+  line-height: 1.45;
+  color: rgba(9, 11, 16, 0.78);
+}
+
+.profile-services {
+  display: grid;
+  gap: 3mm;
+}
+
+.profile-services-head h2 {
+  margin: 1mm 0 0;
+  font-size: 18pt;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.profile-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3mm;
+}
+
+.profile-services-grid article {
+  display: grid;
+  gap: 1mm;
+  padding: 4mm;
+  border: 1px solid var(--line-soft);
+  border-radius: 2.5mm;
+}
+
+.profile-services-grid span {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(9, 11, 16, 0.55);
+}
+
+.profile-services-grid strong {
+  font-size: 11pt;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+}
+
+.profile-services-grid p {
+  margin: 0.5mm 0 0;
+  font-size: 8pt;
+  line-height: 1.4;
+  color: rgba(9, 11, 16, 0.66);
+}
+
+/* ---- PAGE 03 — PROJECT GRID ---- */
+.page-projects {
+  display: flex;
+  flex-direction: column;
+  gap: 5mm;
+}
+
+.projects-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(60mm, 80mm);
+  gap: 8mm;
+  align-items: end;
+  padding-bottom: 4mm;
+  margin-top: 2mm;
+  border-bottom: 1px solid rgba(9, 11, 16, 0.18);
+}
+
+.projects-head h2 {
+  margin: 2mm 0 0;
+  font-size: 22pt;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+.projects-head p {
+  margin: 0;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: rgba(9, 11, 16, 0.66);
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2.5mm;
+}
+
+.grid-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1mm;
+  overflow: hidden;
+}
+
+.grid-card-media {
+  display: block;
+  position: relative;
+  height: 20mm;
+  overflow: hidden;
+  border-radius: 1.6mm;
+  background: var(--charcoal);
+}
+
+.grid-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.grid-card-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3mm;
+  padding: 0 0.4mm;
+}
+
+.grid-card-copy strong {
+  font-size: 8.2pt;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.grid-card-copy em {
+  font-style: normal;
+  font-size: 6.8pt;
+  font-weight: 400;
+  color: rgba(9, 11, 16, 0.62);
+  line-height: 1.2;
+}
+
+.grid-card-copy span {
+  margin-top: 0.3mm;
+  font-size: 6pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.5);
+}

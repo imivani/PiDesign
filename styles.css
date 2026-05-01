@@ -1,3 +1,51 @@
+@font-face {
+  font-family: "PI Helvetica";
+  src: url("assets/fonts/Helvetica-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PI Helvetica";
+  src: url("assets/fonts/Helvetica-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PI Helvetica";
+  src: url("assets/fonts/Helvetica-Bold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PI Helvetica";
+  src: url("assets/fonts/Helvetica-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PI Helvetica";
+  src: url("assets/fonts/Helvetica-Oblique.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PI Helvetica";
+  src: url("assets/fonts/Helvetica-BoldOblique.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --ink: #08090a;
   --muted: #5b5d5e;
@@ -18,7 +66,7 @@
   --radius-panel: 8px;
   --shadow: 0 24px 70px rgba(10, 12, 14, 0.13);
   --shadow-soft: 0 12px 36px rgba(10, 12, 14, 0.06);
-  --font: Helvetica, "Helvetica Neue", Arial, sans-serif;
+  --font: "PI Helvetica", Helvetica, "Helvetica Neue", Arial, sans-serif;
   --header-height: 72px;
 }
 
@@ -230,13 +278,21 @@ input {
   color: var(--ink);
   box-shadow: 0 16px 34px rgba(9, 11, 16, 0.1);
   backdrop-filter: blur(18px);
+  cursor: pointer;
+  transition: background 220ms ease, color 220ms ease, border-color 220ms ease,
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .menu-toggle:hover,
 .menu-toggle:focus-visible,
 .menu-toggle[aria-expanded="true"] {
   background: var(--ink);
+  border-color: var(--ink);
   color: var(--white);
+}
+
+.menu-toggle:active {
+  transform: scale(0.96);
 }
 
 .menu-toggle span {
@@ -245,7 +301,8 @@ input {
   width: 18px;
   height: 1px;
   background: currentColor;
-  transition: transform 180ms ease;
+  transform-origin: center;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), top 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .menu-toggle span:first-child {
@@ -268,16 +325,28 @@ input {
   position: fixed;
   inset: 76px 16px auto;
   z-index: 39;
-  display: none;
+  display: grid;
   grid-template-columns: 1fr;
   border-radius: var(--radius-panel);
   background: rgba(247, 244, 238, 0.96);
   box-shadow: var(--shadow);
   overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transform: translate3d(0, -14px, 0) scale(0.985);
+  transform-origin: top right;
+  transition: opacity 260ms ease, transform 360ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0s linear 360ms;
+  will-change: opacity, transform;
 }
 
 .mobile-menu.is-open {
-  display: grid;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition-delay: 0s;
 }
 
 .mobile-menu a {
@@ -287,6 +356,35 @@ input {
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
+}
+
+.mobile-menu > a,
+.mobile-project-list {
+  opacity: 0;
+  transform: translate3d(0, -10px, 0);
+  transition: opacity 280ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-menu.is-open > a,
+.mobile-menu.is-open .mobile-project-list {
+  opacity: 1;
+  transform: none;
+}
+
+.mobile-menu.is-open > a:nth-child(1) {
+  transition-delay: 70ms;
+}
+
+.mobile-menu.is-open > a:nth-child(4) {
+  transition-delay: 120ms;
+}
+
+.mobile-menu.is-open .mobile-project-list {
+  transition-delay: 155ms;
+}
+
+.mobile-menu.is-open > a:nth-child(6) {
+  transition-delay: 190ms;
 }
 
 .mobile-project-list {
@@ -301,6 +399,20 @@ input {
   color: rgba(9, 11, 16, 0.66);
   font-size: 12px;
   text-transform: none;
+}
+
+.mobile-project-list a {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition-property: opacity, transform, background, color;
+  transition-duration: 260ms, 360ms, 160ms, 160ms;
+  transition-timing-function: ease, cubic-bezier(0.16, 1, 0.3, 1), ease, ease;
+}
+
+.mobile-menu.is-open .mobile-project-list a {
+  opacity: 1;
+  transform: none;
+  transition-delay: var(--menu-delay, 140ms), var(--menu-delay, 140ms), 0ms, 0ms;
 }
 
 .hero {
@@ -1603,6 +1715,23 @@ body::before {
 
 .project-card.is-mobile-hidden {
   display: none;
+}
+
+.project-card.is-expanding {
+  animation: project-card-pop 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes project-card-pop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .project-grid-more {
@@ -3328,7 +3457,7 @@ address a:focus-visible {
     left: 0;
     right: 0;
     height: var(--header-height);
-    padding: 0 18px;
+    padding: 0 16px;
     border-radius: 0;
     border-bottom-color: rgba(9, 11, 16, 0.14);
     background: rgba(255, 255, 255, 0.9);
@@ -3341,9 +3470,11 @@ address a:focus-visible {
 
   .menu-toggle {
     display: block;
-    position: fixed;
-    top: 13px;
-    right: 64px;
+    justify-self: end;
+    align-self: center;
+    position: relative;
+    top: auto;
+    right: auto;
     width: 42px;
     height: 42px;
     border-radius: 10px;
@@ -3367,7 +3498,7 @@ address a:focus-visible {
   }
 
   .mobile-menu > a {
-    padding: 16px 18px;
+    padding: 16px;
   }
 
   .mobile-menu a[href*="#studio"],
@@ -3379,7 +3510,7 @@ address a:focus-visible {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
     max-height: min(430px, 52dvh);
-    padding: 10px;
+    padding: 10px 16px 14px;
     overflow-y: auto;
     background: var(--sand);
     border-bottom: 1px solid var(--line-soft);
@@ -3502,8 +3633,7 @@ address a:focus-visible {
   }
 
   .archive-section,
-  .project-detail,
-  .contact-band {
+  .project-detail {
     padding-left: 28px;
     padding-right: 28px;
   }
@@ -3637,16 +3767,26 @@ address a:focus-visible {
   .contact-band {
     grid-template-columns: 1fr;
     min-height: 0;
+    padding: 0;
+    background: var(--sand);
+    color: var(--ink);
+    border-color: rgba(9, 11, 16, 0.08);
+    box-shadow: 0 18px 48px rgba(10, 12, 14, 0.1);
   }
 
   .contact-band-copy {
-    margin: 12px;
-    padding: 34px 24px;
+    min-width: 0;
+    margin: 0;
+    padding: 36px 24px 28px;
     gap: 24px;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .contact-band h2 {
+    max-width: 100%;
     font-size: 40px;
+    line-height: 0.98;
   }
 
   .contact-band p {
@@ -3664,7 +3804,24 @@ address a:focus-visible {
   }
 
   .contact-band-photo {
+    width: 100%;
     min-height: 360px;
+    border-top: 1px solid rgba(9, 11, 16, 0.08);
+  }
+
+  .contact-band-photo::before {
+    background: linear-gradient(180deg, rgba(17, 19, 20, 0) 55%, rgba(17, 19, 20, 0.3) 100%);
+  }
+
+  .contact-band-photo::after {
+    display: none;
+  }
+
+  .contact-band-photo img {
+    width: 100%;
+    height: 360px;
+    min-height: 360px;
+    object-position: center;
   }
 
   .contact-hero {
@@ -3757,6 +3914,10 @@ address a:focus-visible {
     padding-right: 0;
   }
 
+  .project-page-main {
+    overflow-x: hidden;
+  }
+
   .footer-inner {
     padding: 40px 28px 22px;
   }
@@ -3784,16 +3945,20 @@ address a:focus-visible {
     margin-top: 32px;
   }
 
-  .project-page-hero,
-  .project-gallery-section,
-  .project-page-nav {
-    width: var(--page);
+  .project-page-hero {
+    width: 100%;
+    max-width: 100%;
+    margin-top: calc(var(--header-height) + 16px);
+    border-radius: 0;
+    padding: 12px 16px 16px;
+    min-height: auto;
+    box-shadow: none;
   }
 
-  .project-page-hero {
-    margin-top: calc(var(--header-height) + 16px);
-    padding: 8px;
-    min-height: auto;
+  .project-hero-copy,
+  .project-hero-media {
+    min-width: 0;
+    border-radius: var(--radius);
   }
 
   .project-hero-copy {
@@ -3810,6 +3975,7 @@ address a:focus-visible {
   .project-page-hero p {
     margin-top: 18px;
     font-size: 15px;
+    overflow-wrap: break-word;
   }
 
   .project-page-meta {
@@ -3822,18 +3988,46 @@ address a:focus-visible {
     gap: 18px;
   }
 
+  .project-gallery-section {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 16px;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+    padding: 34px 16px 18px;
+    box-shadow: none;
+  }
+
   .project-gallery-head h2 {
     font-size: 46px;
+    overflow-wrap: break-word;
+  }
+
+  .project-gallery-head p {
+    overflow-wrap: break-word;
+  }
+
+  .project-viewer {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 12px;
   }
 
   .project-viewer,
   .project-viewer img {
-    min-height: 360px;
-    height: 360px;
+    min-height: 420px;
+    height: 420px;
+  }
+
+  .project-viewer img {
+    width: 100%;
+    object-position: center;
   }
 
   .project-viewer-thumbs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   .project-viewer-thumb {
@@ -3875,7 +4069,12 @@ address a:focus-visible {
   }
 
   .project-page-nav {
+    width: 100%;
+    max-width: 100%;
     grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 0 16px 18px;
   }
 }
 
@@ -3910,6 +4109,12 @@ address a:focus-visible {
     font-size: 44px;
   }
 
+  .contact-band h2 {
+    font-size: 38px;
+    line-height: 1;
+    max-width: 300px;
+  }
+
   .service-feature-card:first-child .service-feature-media,
   .service-feature-card:not(:first-child) .service-feature-media {
     min-height: 240px;
@@ -3929,13 +4134,9 @@ address a:focus-visible {
     font-size: 42px;
   }
 
-  .project-page-hero {
-    width: var(--page);
-  }
-
   .project-hero-copy {
     min-height: auto;
-    padding: 26px 22px;
+    padding: 28px 22px;
   }
 
   .project-page-hero h1 {
@@ -3948,13 +4149,13 @@ address a:focus-visible {
   }
 
   .project-hero-media img {
-    min-height: 260px;
+    min-height: 300px;
   }
 
   .project-viewer,
   .project-viewer img {
-    min-height: 300px;
-    height: 300px;
+    min-height: 390px;
+    height: 390px;
   }
 
   .project-viewer-caption {
@@ -3989,7 +4190,7 @@ address a:focus-visible {
 
   .project-gallery-section,
   .project-page-nav {
-    width: var(--page);
+    width: 100%;
   }
 
   .offer-section,

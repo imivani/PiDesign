@@ -6,140 +6,106 @@ $json = $source -replace "^\s*window\.PI_PROJECTS\s*=\s*", "" -replace ";\s*$", 
 $projects = $json | ConvertFrom-Json
 if (-not ($projects -is [array])) { $projects = @($projects) }
 
-# Keep only projects with real cover photos (skip placeholder ones using hero.jpg)
+# Real projects only (skip placeholder entries)
 $realProjects = @($projects | Where-Object { $_.image -and $_.image -notlike "*hero.jpg" })
 $realProjects = @($realProjects | Select-Object -First 27)
+
+# ----------------------------------------------------------------------
+# IMAGE COMPRESSION
+# ----------------------------------------------------------------------
+Add-Type -AssemblyName System.Drawing
+
+$portfolioDir = Join-Path $root "portfolio"
+$compressDir = Join-Path $portfolioDir "img"
+if (-not (Test-Path -LiteralPath $compressDir)) {
+  New-Item -ItemType Directory -Path $compressDir -Force | Out-Null
+}
+
+$jpegCodec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Object { $_.MimeType -eq 'image/jpeg' }
+$compressCache = @{}
+
+function Compress-Image([string]$relPath, [int]$maxWidth = 1100, [int]$quality = 72) {
+  if ([string]::IsNullOrWhiteSpace($relPath)) { return $null }
+  $cacheKey = "$relPath|$maxWidth|$quality"
+  if ($compressCache.ContainsKey($cacheKey)) { return $compressCache[$cacheKey] }
+
+  $absSrc = Join-Path $root $relPath
+  if (-not (Test-Path -LiteralPath $absSrc)) {
+    $compressCache[$cacheKey] = $null
+    return $null
+  }
+
+  $stem = ($relPath -replace "[\\/]", "-") -replace "\.[^.]+$", ""
+  $outName = "{0}-w{1}q{2}.jpg" -f $stem, $maxWidth, $quality
+  $outPath = Join-Path $compressDir $outName
+
+  $needsBuild = $true
+  if (Test-Path -LiteralPath $outPath) {
+    $srcInfo = Get-Item -LiteralPath $absSrc
+    $outInfo = Get-Item -LiteralPath $outPath
+    if ($outInfo.LastWriteTime -ge $srcInfo.LastWriteTime) {
+      $needsBuild = $false
+    }
+  }
+
+  if ($needsBuild) {
+    $src = [System.Drawing.Image]::FromFile($absSrc)
+    try {
+      $ratio = [Math]::Min(1.0, $maxWidth / [double]$src.Width)
+      $newW = [int]([Math]::Max(1, [Math]::Round($src.Width * $ratio)))
+      $newH = [int]([Math]::Max(1, [Math]::Round($src.Height * $ratio)))
+      $bmp = New-Object System.Drawing.Bitmap $newW, $newH, ([System.Drawing.Imaging.PixelFormat]::Format24bppRgb)
+      $g = [System.Drawing.Graphics]::FromImage($bmp)
+      try {
+        $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+        $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
+        $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+        $g.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
+        $g.Clear([System.Drawing.Color]::White)
+        $g.DrawImage($src, 0, 0, $newW, $newH)
+
+        $params = New-Object System.Drawing.Imaging.EncoderParameters 1
+        $params.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter([System.Drawing.Imaging.Encoder]::Quality, [long]$quality)
+        $bmp.Save($outPath, $jpegCodec, $params)
+      }
+      finally {
+        $g.Dispose()
+        $bmp.Dispose()
+      }
+    }
+    finally {
+      $src.Dispose()
+    }
+  }
+
+  $rel = "img/$outName"
+  $compressCache[$cacheKey] = $rel
+  return $rel
+}
 
 function Escape-Html([string]$value) {
   if ($null -eq $value) { return "" }
   return [System.Net.WebUtility]::HtmlEncode($value)
 }
 
-function File-Hash([string]$relPath) {
-  if ([string]::IsNullOrWhiteSpace($relPath)) { return $null }
-  $abs = Join-Path $root $relPath
-  if (-not (Test-Path -LiteralPath $abs)) { return $null }
-  return (Get-FileHash -LiteralPath $abs -Algorithm MD5).Hash
-}
-
-function Get-StripImages($project) {
-  $hashes = @{}
-  $picked = New-Object System.Collections.Generic.List[string]
-
-  # Reserve the cover hash so we never repeat the hero in the strip
-  $coverHash = File-Hash $project.image
-  if ($coverHash) { $hashes[$coverHash] = $true }
-
-  foreach ($img in @($project.gallery)) {
-    if ([string]::IsNullOrWhiteSpace($img)) { continue }
-    if ($img -eq $project.image) { continue }
-    $h = File-Hash $img
-    if (-not $h) { continue }
-    if ($hashes.ContainsKey($h)) { continue }
-    $hashes[$h] = $true
-    $picked.Add($img)
-    if ($picked.Count -ge 2) { break }
-  }
-
-  return ,$picked
-}
-
-function Project-Page($project, [int]$pageNum) {
-  $title = Escape-Html $project.title
-  $description = Escape-Html $project.description
-  $category = Escape-Html $project.category
-  $location = Escape-Html $project.location
-  $year = Escape-Html $project.year
-  $coverImage = "../" + $project.image
-  $coverAlt = Escape-Html "$($project.title) project image"
-
-  $strip = Get-StripImages $project
-  $stripHtml = ""
-  if ($strip.Count -gt 0) {
-    $items = New-Object System.Collections.Generic.List[string]
-    foreach ($img in $strip) {
-      $alt = Escape-Html "$($project.title) detail"
-      $src = "../$img"
-      $items.Add(@"
-          <figure><img src="$src" alt="$alt"></figure>
-"@)
-    }
-    $stripClass = if ($strip.Count -eq 1) { "project-strip project-strip-1" }
-                  elseif ($strip.Count -eq 2) { "project-strip project-strip-2" }
-                  else { "project-strip project-strip-3" }
-    $stripHtml = @"
-      <div class="$stripClass">
-$($items -join "`n")
-      </div>
-"@
-  }
-
-  $extraCredit = ""
-  if ($project.credit) {
-    $creditField = Escape-Html $project.credit
-    $extraCredit = @"
-          <div><dt>Credit</dt><dd>$creditField</dd></div>
-"@
-  } else {
-    $extraCredit = @"
-          <div><dt>Studio</dt><dd>Pi Design Group.</dd></div>
-"@
-  }
-
-  $pageNumLabel = "{0:00}" -f $pageNum
-  $pageHeadMeta = "$pageNumLabel / Selected Project"
-
-@"
-    <section class="page page-project">
-      <header class="page-head page-head-dark">
-        <span class="brand">Pi Design Group.</span>
-        <span class="meta">$pageHeadMeta</span>
-      </header>
-
-      <div class="project-hero">
-        <img src="$coverImage" alt="$coverAlt">
-        <div class="project-hero-card">
-          <span class="section-num">[$category]</span>
-          <h2>$title</h2>
-          <span class="project-meta">$location, AB &middot; $year &middot; $category</span>
-        </div>
-      </div>
-
-      <div class="project-body">
-        <div class="project-copy">
-          <p>$description</p>
-        </div>
-        <dl class="project-meta-grid">
-          <div><dt>Location</dt><dd>$location, AB</dd></div>
-          <div><dt>Completion</dt><dd>$year</dd></div>
-          <div><dt>Type</dt><dd>$category</dd></div>
-$extraCredit
-        </dl>
-      </div>
-$stripHtml
-      <footer class="page-foot">
-        <span>Pi Design Group. / $title</span>
-        <span>$pageNumLabel</span>
-      </footer>
-    </section>
-"@
-}
-
-# Pages 01, 02, 03
+# ----------------------------------------------------------------------
+# PAGE 01 — COVER
+# ----------------------------------------------------------------------
+$coverImage = Compress-Image "assets/site/projects/redstone/cover.jpg" 1500 78
 $pageCover = @"
     <section class="page page-cover">
       <header class="cover-top">
         <span class="brand">Pi Design Group.</span>
-        <span class="meta">Portfolio / 2026</span>
+        <span class="meta">Corporate Profile / 2026</span>
       </header>
 
       <div class="cover-frame">
-        <img src="../assets/site/projects/redstone/cover.jpg" alt="Redstone community landscape">
+        <img src="$coverImage" alt="Redstone community landscape">
         <span class="cover-tag">Calgary, Alberta &middot; Landscape Architectural Services</span>
       </div>
 
       <div class="cover-headline">
-        <span class="section-num">[01]</span>
+        <span class="section-num">[01 / Studio]</span>
         <h1>
           Designing landscapes
           <span>that shape communities.</span>
@@ -161,196 +127,158 @@ $pageCover = @"
         </div>
         <div>
           <span class="label">Edition</span>
-          <span class="value">Portfolio 2026 / 01</span>
+          <span class="value">Profile 2026 / 01</span>
         </div>
       </footer>
     </section>
 "@
 
+# ----------------------------------------------------------------------
+# PAGE 02 — STUDIO + TEAM + SERVICES
+# ----------------------------------------------------------------------
+$introArt1 = Compress-Image "assets/site/projects/darcy/cover.jpg" 700 70
+$introArt2 = Compress-Image "assets/site/projects/symon/cover.jpg" 700 70
+$peterPhoto = Compress-Image "assets/site/projects/redstone/cover.jpg" 800 72
+$terryPhoto = Compress-Image "assets/site/projects/seton/cover.jpg" 800 72
+$watermarkArt = Compress-Image "assets/site/projects/redstone/gallery-3.jpg" 1200 65
+
 $pageStudio = @"
-    <section class="page page-light">
+    <section class="page page-light page-studio">
+      <span class="page-mark" aria-hidden="true">
+        <img src="$watermarkArt" alt="">
+      </span>
+
       <header class="page-head">
         <span class="brand">Pi Design Group.</span>
-        <span class="meta">02 / Studio</span>
+        <span class="meta">02 / Corporate Profile</span>
       </header>
 
-      <div class="studio-grid">
-        <div class="studio-copy">
+      <div class="profile-intro">
+        <div class="profile-intro-copy">
           <span class="section-num">[Studio]</span>
-          <h2>Spaces that move from concept to construction.</h2>
-          <p class="lede">PI Design Group is a Calgary-based landscape architecture studio working with builders, developers, and project teams across Alberta to shape outdoor environments that feel considered, buildable, and lasting.</p>
-          <p>The studio specializes in residential, commercial, and community-scale landscape design &mdash; guiding each project from early visioning through municipal approvals and into the field, where the work becomes real. The result is outdoor space that integrates planning, planting, and detail with the architecture and the community around it.</p>
-          <p>Every brief is approached the same way: study the site, listen to the team, design with intent, and document with the rigor needed for builders to deliver the work as drawn.</p>
+          <h2>A boutique landscape architecture studio across Western Canada.</h2>
+          <p>PI Design Group is a boutique Landscape Architecture and Planning firm specializing in residential and multifamily developments across Western Alberta. Established over a decade ago, the firm delivers practical, contemporary, and sustainable landscape solutions supported by strong technical execution.</p>
+          <p>Licensed to practice in Alberta and British Columbia, PI Design Group has successfully completed more than 70 projects across residential, multifamily, and commercial sectors. Technical production is supported by a team of junior landscape technicians on an outsourced basis &mdash; allowing the studio to scale efficiently while maintaining quality and schedule.</p>
         </div>
-
-        <aside class="studio-stats">
-          <div>
-            <span class="stat-value">Calgary</span>
-            <span class="stat-label">Studio</span>
-          </div>
-          <div>
-            <span class="stat-value">52+</span>
-            <span class="stat-label">Projects across Alberta</span>
-          </div>
-          <div>
-            <span class="stat-value">4</span>
-            <span class="stat-label">Core sectors served</span>
-          </div>
-          <div>
-            <span class="stat-value">Concept &rarr; Construction</span>
-            <span class="stat-label">Full-service studio</span>
-          </div>
+        <aside class="profile-intro-art" aria-hidden="true">
+          <figure>
+            <img src="$introArt1" alt="">
+            <figcaption>D&rsquo;Arcy &middot; Residential</figcaption>
+          </figure>
+          <figure>
+            <img src="$introArt2" alt="">
+            <figcaption>Symon &middot; Residential</figcaption>
+          </figure>
         </aside>
       </div>
 
-      <div class="studio-rule"></div>
+      <div class="principals">
+        <article class="principal-card">
+          <div class="principal-card-text">
+            <span class="principal-tag">Practice Lead / 01</span>
+            <h3>Peter Imshenetskyy</h3>
+            <span class="principal-creds">M.Arch</span>
+            <p>20+ years of professional experience in architecture and landscape architecture in Calgary since 2004, supported by a Master&rsquo;s Degree in Architecture earned in 1996.</p>
+          </div>
+          <div class="principal-card-photo">
+            <img src="$peterPhoto" alt="Redstone community landscape">
+            <span class="principal-card-credit">Redstone &middot; Community</span>
+          </div>
+        </article>
+        <article class="principal-card">
+          <div class="principal-card-text">
+            <span class="principal-tag">Practice Lead / 02</span>
+            <h3>Terry Klassen</h3>
+            <span class="principal-creds">AALA &middot; MBCSLA &middot; RPP &middot; MCIP &middot; CSLA</span>
+            <p>40+ years of landscape architectural experience throughout Western Canada, providing deep regulatory, planning, and design leadership across the studio&rsquo;s practice.</p>
+          </div>
+          <div class="principal-card-photo">
+            <img src="$terryPhoto" alt="Seton Crossing commercial landscape">
+            <span class="principal-card-credit">Seton Crossing &middot; Commercial</span>
+          </div>
+        </article>
+      </div>
 
-      <div class="studio-tags">
-        <span>Residential</span>
-        <span>Commercial</span>
-        <span>Mixed-use</span>
-        <span>Community</span>
-        <span>Single family</span>
-        <span>City approvals</span>
-        <span>Construction documentation</span>
+      <div class="profile-services">
+        <div class="profile-services-head">
+          <span class="section-num">[Services]</span>
+          <h2>Landscape services, end to end.</h2>
+        </div>
+        <div class="profile-services-grid">
+          <article><span>(01)</span><strong>Site Analysis &amp; Concept Design</strong><p>Site studies and early visioning that shape the landscape brief.</p></article>
+          <article><span>(02)</span><strong>Landscape Design &amp; Detailing</strong><p>Hardscape, softscape, planting, and integrated detail.</p></article>
+          <article><span>(03)</span><strong>Construction Documentation</strong><p>Coordinated drawings ready for builders, trades, and approvals.</p></article>
+          <article><span>(04)</span><strong>Municipal Approvals</strong><p>Coordination with cities and regulatory partners across Alberta.</p></article>
+          <article><span>(05)</span><strong>Consultant Coordination</strong><p>Working alongside architects, engineers, and project teams.</p></article>
+          <article><span>(06)</span><strong>Construction Administration</strong><p>On-site studio support to deliver the work as designed.</p></article>
+        </div>
       </div>
 
       <footer class="page-foot">
-        <span>Pi Design Group.</span>
+        <span>Pi Design Group. / Studio</span>
         <span>02</span>
       </footer>
     </section>
 "@
 
-$pageServices = @"
-    <section class="page page-sand">
+# ----------------------------------------------------------------------
+# PAGE 03 — PROJECT GRID
+# ----------------------------------------------------------------------
+$gridItems = New-Object System.Collections.Generic.List[string]
+foreach ($p in $realProjects) {
+  $thumb = Compress-Image $p.image 700 70
+  $title = Escape-Html $p.title
+  $location = Escape-Html $p.location
+  $year = Escape-Html $p.year
+  $category = Escape-Html $p.category
+  $gridItems.Add(@"
+        <article class="grid-card">
+          <span class="grid-card-media">
+            <img src="$thumb" alt="$title">
+          </span>
+          <span class="grid-card-copy">
+            <strong>$title</strong>
+            <em>$location &middot; $year</em>
+            <span>$category</span>
+          </span>
+        </article>
+"@)
+}
+$gridItemsHtml = ($gridItems -join "`n")
+
+$projectCount = $realProjects.Count
+$pageProjects = @"
+    <section class="page page-sand page-projects">
       <header class="page-head">
         <span class="brand">Pi Design Group.</span>
-        <span class="meta">03 / Services</span>
+        <span class="meta">03 / Selected Work</span>
       </header>
 
-      <div class="services-head">
-        <span class="section-num">[Services]</span>
-        <h2>What We Offer, Built with Intention.</h2>
-        <p>From concept to completion, each space is shaped with purpose. Five lanes the studio leads, applied across every project type.</p>
+      <div class="projects-head">
+        <div>
+          <span class="section-num">[Projects]</span>
+          <h2>$projectCount selected projects across Alberta.</h2>
+        </div>
+        <p>Residential, multifamily, mixed-use, and commercial landscapes &mdash; designed and delivered by PI Design Group. More projects, including 2025 and 2026 work, are released on the studio website.</p>
       </div>
 
-      <div class="services-grid">
-        <article class="service-row">
-          <span class="num">(01)</span>
-          <h3>Landscape Architecture</h3>
-          <p>Site planning, grading, planting, and integrated landscape detail from concept through buildable documentation.</p>
-        </article>
-        <article class="service-row">
-          <span class="num">(02)</span>
-          <h3>Community Planning</h3>
-          <p>Open-space planning and community-scale strategies that shape the rhythm of new neighborhoods.</p>
-        </article>
-        <article class="service-row">
-          <span class="num">(03)</span>
-          <h3>3D Visualization</h3>
-          <p>Visualize the project before construction with rendered concepts, 3D models, and design walkthroughs.</p>
-        </article>
-        <article class="service-row">
-          <span class="num">(04)</span>
-          <h3>Construction Drawings</h3>
-          <p>Coordinated technical drawings ready for builders, trades, and city approvals.</p>
-        </article>
-        <article class="service-row">
-          <span class="num">(05)</span>
-          <h3>Consultation</h3>
-          <p>Direct studio support from briefs and reviews to material selection and city approvals.</p>
-        </article>
+      <div class="projects-grid">
+$gridItemsHtml
       </div>
 
       <footer class="page-foot">
-        <span>Pi Design Group.</span>
-        <span>03</span>
+        <span>Pi Design Group. / Selected Work</span>
+        <span>03 &middot; pidesigngroup.ca</span>
       </footer>
     </section>
 "@
-
-# Build closing page using top 3 covers from the curated list (cover, then 2 distinct projects)
-$closingProjects = @($realProjects | Select-Object -First 3)
-$closingFigures = New-Object System.Collections.Generic.List[string]
-foreach ($cp in $closingProjects) {
-  $imgSrc = "../" + $cp.image
-  $imgAlt = Escape-Html $cp.title
-  $figTitle = Escape-Html $cp.title
-  $figCat = Escape-Html $cp.category
-  $closingFigures.Add(@"
-        <figure>
-          <img src="$imgSrc" alt="$imgAlt">
-          <figcaption>$figTitle &middot; $figCat</figcaption>
-        </figure>
-"@)
-}
-$closingFiguresHtml = ($closingFigures -join "`n")
-
-$pageClosing = @"
-    <section class="page page-cover page-closing">
-      <header class="cover-top">
-        <span class="brand">Pi Design Group.</span>
-        <span class="meta">Get in touch</span>
-      </header>
-
-      <div class="closing-strip">
-$closingFiguresHtml
-      </div>
-
-      <div class="closing-block">
-        <span class="section-num">[Contact]</span>
-        <h1>
-          Ready to start
-          <span>a landscape project?</span>
-        </h1>
-        <p>Tell us about your project. PI Design Group works with builders, developers, and project teams to shape outdoor spaces that move from concept to construction.</p>
-      </div>
-
-      <div class="closing-methods">
-        <div>
-          <span class="label">Call</span>
-          <span class="value">403-510-4071</span>
-        </div>
-        <div>
-          <span class="label">Email</span>
-          <span class="value">peter@pidesigngroup.ca</span>
-        </div>
-        <div>
-          <span class="label">Studio</span>
-          <span class="value">Calgary, Alberta</span>
-        </div>
-        <div>
-          <span class="label">Web</span>
-          <span class="value">pidesigngroup.ca</span>
-        </div>
-      </div>
-
-      <footer class="cover-foot closing-foot">
-        <span>&copy; 2026 PI Design Group.</span>
-        <span>Landscape Architectural Services</span>
-        <span>Portfolio 2026 / 01</span>
-      </footer>
-    </section>
-"@
-
-# Assemble project pages
-$projectSections = New-Object System.Collections.Generic.List[string]
-$pageNum = 4
-foreach ($project in $realProjects) {
-  $projectSections.Add((Project-Page $project $pageNum))
-  $pageNum += 1
-}
-$projectsHtml = ($projectSections -join "`n")
-
-$totalPages = 3 + $realProjects.Count + 1
 
 $head = @"
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Pi Design Group. &mdash; Portfolio 2026</title>
+    <title>Pi Design Group. &mdash; Corporate Profile 2026</title>
     <link rel="stylesheet" href="portfolio.css">
   </head>
   <body>
@@ -361,8 +289,8 @@ $tail = @"
 </html>
 "@
 
-$fullHtml = $head + "`n" + $pageCover + "`n" + $pageStudio + "`n" + $pageServices + "`n" + $projectsHtml + "`n" + $pageClosing + "`n" + $tail
-$outPath = Join-Path $root "portfolio\portfolio.html"
+$fullHtml = $head + "`n" + $pageCover + "`n" + $pageStudio + "`n" + $pageProjects + "`n" + $tail
+$outPath = Join-Path $portfolioDir "portfolio.html"
 Set-Content -LiteralPath $outPath -Value $fullHtml -Encoding UTF8
 
-Write-Output ("Wrote portfolio.html with {0} project pages ({1} pages total)." -f $realProjects.Count, $totalPages)
+Write-Output ("Wrote 3-page corporate profile with {0} project thumbnails." -f $projectCount)
